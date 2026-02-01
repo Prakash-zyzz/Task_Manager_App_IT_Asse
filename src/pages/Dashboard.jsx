@@ -32,9 +32,16 @@ export default function Dashboard() {
 
   
 
-  const handleAdd = (taskData) => {
-  const newTask = addTask(taskData);   // instant
-  setTasks(prev => [newTask, ...prev]);
+//   const handleAdd = (taskData) => {
+//   const newTask = addTask(taskData);   // instant
+//   setTasks(prev => [newTask, ...prev]);
+// };
+
+const handleAdd = async (taskData) => {
+  const newTask = await addTask(taskData);
+  if (newTask) {
+    setTasks(prev => [newTask, ...prev]);
+  }
 };
 
 
