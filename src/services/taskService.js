@@ -9,7 +9,7 @@ import {
   serverTimestamp
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
-// import { v4 as uuid } from "uuid";
+import { v4 as uuid } from "uuid";
 
 
 function normalizeDate(value) {
@@ -101,10 +101,13 @@ export async function getTaskById(id) {
 //   };
 // }
 
-export async function addTask({ title, description, dueDate }) {
+export function addTask({ title, description, dueDate }) {
   if (!auth.currentUser) return null;
 
-  const docRef = await addDoc(tasksRef(), {
+  const localId = uuid();
+
+  // 🔥 Fire-and-forget Firestore write
+  addDoc(tasksRef(), {
     title,
     description: description || "",
     dueDate: dueDate || null,
@@ -112,10 +115,11 @@ export async function addTask({ title, description, dueDate }) {
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     completedAt: null
-  });
+  }).catch(console.error);
 
+  
   return {
-    id: docRef.id, // ✅ REAL Firestore ID
+    id: localId,
     title,
     description: description || "",
     dueDate: dueDate || null,
