@@ -34,7 +34,7 @@ export default function ResetPassword() {
         transition={{ duration: 0.4 }}
         className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md border border-gray-100"
       >
-        
+        {/* Header */}
         <div className="text-center mb-8">
           <motion.div
             initial={{ scale: 0 }}
@@ -66,7 +66,7 @@ export default function ResetPassword() {
           </motion.p>
         </div>
 
-        
+        {/* Success Message */}
         <AnimatePresence>
           {message && (
             <motion.div
@@ -82,7 +82,7 @@ export default function ResetPassword() {
           )}
         </AnimatePresence>
 
-        
+        {/* Error Message */}
         <AnimatePresence>
           {error && (
             <motion.div
@@ -98,7 +98,7 @@ export default function ResetPassword() {
           )}
         </AnimatePresence>
 
-        
+        {/* Form */}
         {!message && (
           <motion.form
             initial={{ opacity: 0 }}
@@ -107,7 +107,7 @@ export default function ResetPassword() {
             onSubmit={handleSubmit}
             className="space-y-6"
           >
-            
+            {/* Email Input */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -130,7 +130,7 @@ export default function ResetPassword() {
               </div>
             </motion.div>
 
-           
+            {/* Submit Button */}
             <motion.button
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

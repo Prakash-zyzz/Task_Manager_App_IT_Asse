@@ -10,7 +10,7 @@ import { Plus, LogOut, CheckCircle, Clock, Moon, Sun  } from "lucide-react";
 export default function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [filter, setFilter] = useState("all"); // all, completed, pending
+  const [filter, setFilter] = useState("all"); 
   const [loading, setLoading] = useState(true);
   
 

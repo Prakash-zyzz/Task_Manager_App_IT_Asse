@@ -70,13 +70,21 @@ export default function TaskDetail() {
     }
   };
 
-  const handleToggleComplete = () => {
-    setTask(prev => ({
-      ...prev,
-      completed: !prev.completed,
-      completedAt: !prev.completed ? new Date().toISOString() : null
-    }));
-  };
+const handleToggleComplete = async () => {
+  const updated = !task.completed;
+
+  setTask(prev => ({
+    ...prev,
+    completed: updated,
+    completedAt: updated ? new Date() : null
+  }));
+
+  await updateTask({
+    ...task,
+    completed: updated
+  });
+};
+
 
   if (loading) {
     return (

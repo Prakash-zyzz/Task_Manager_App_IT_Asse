@@ -8,27 +8,30 @@ export default function AddTaskModal({ onClose, onSave }) {
   const [loading, setLoading] = useState(false);
   const [dueDate, setDueDate] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!title.trim()) return;
-    
-    setLoading(true);
-    try {
-      await onSave({
-  title,
-  description,
-  dueDate: dueDate || null,
-});
-      setTitle("");
-      setDescription("");
-      setDueDate("");
-      onClose();
-    } catch (error) {
-      console.error("Failed to save task:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  if (!title.trim()) return;
+
+  setLoading(true);
+
+  try {
+    onSave({
+      title,
+      description,
+      dueDate: dueDate || null,
+    });
+
+    setTitle("");
+    setDescription("");
+    setDueDate("");
+    onClose();
+  } catch (error) {
+    console.error("Failed to save task:", error);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   return (
     <AnimatePresence>

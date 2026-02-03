@@ -9,7 +9,7 @@ import {
   serverTimestamp
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
-import { v4 as uuid } from "uuid";
+
 
 
 function normalizeDate(value) {
@@ -73,41 +73,10 @@ export async function getTaskById(id) {
 }
 
 
-// export function addTask({ title, description, dueDate }) {
-//   if (!auth.currentUser) return null;
-
-//   const tempId = uuid();
-
-  
-//   addDoc(tasksRef(), {
-//     title,
-//     description: description || "",
-//     dueDate: dueDate || null,
-//     completed: false,
-//     createdAt: serverTimestamp(),
-//     updatedAt: serverTimestamp()
-//   }).catch(console.error);
-
-  
-//   return {
-//     id: tempId,
-//     title,
-//     description: description || "",
-//     dueDate: dueDate || null,
-//     completed: false,
-//     createdAt: new Date(),
-//     updatedAt: new Date(),
-//     completedAt: null
-//   };
-// }
-
-export function addTask({ title, description, dueDate }) {
+export async function addTask({ title, description, dueDate }) {
   if (!auth.currentUser) return null;
 
-  const localId = uuid();
-
-  // 🔥 Fire-and-forget Firestore write
-  addDoc(tasksRef(), {
+  const docRef = await addDoc(tasksRef(), {
     title,
     description: description || "",
     dueDate: dueDate || null,
@@ -115,11 +84,10 @@ export function addTask({ title, description, dueDate }) {
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
     completedAt: null
-  }).catch(console.error);
+  });
 
-  
   return {
-    id: localId,
+    id: docRef.id, 
     title,
     description: description || "",
     dueDate: dueDate || null,
@@ -129,6 +97,7 @@ export function addTask({ title, description, dueDate }) {
     completedAt: null
   };
 }
+
 
 
 
