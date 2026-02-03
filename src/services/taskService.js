@@ -73,21 +73,11 @@ export async function getTaskById(id) {
 }
 
 
-export async function addTask({ title, description, dueDate }) {
+export function addTask({ title, description, dueDate }) {
   if (!auth.currentUser) return null;
 
-  const docRef = await addDoc(tasksRef(), {
-    title,
-    description: description || "",
-    dueDate: dueDate || null,
-    completed: false,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-    completedAt: null
-  });
-
-  return {
-    id: docRef.id, 
+  const tempTask = {
+    id: crypto.randomUUID(), // UI-only
     title,
     description: description || "",
     dueDate: dueDate || null,
@@ -96,7 +86,21 @@ export async function addTask({ title, description, dueDate }) {
     updatedAt: new Date(),
     completedAt: null
   };
+
+  // Fire-and-forget Firestore write
+  addDoc(tasksRef(), {
+    title,
+    description: description || "",
+    dueDate: dueDate || null,
+    completed: false,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    completedAt: null
+  }).catch(console.error);
+
+  return tempTask;
 }
+
 
 
 
